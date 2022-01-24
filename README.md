@@ -42,3 +42,7 @@ docker-compose up
 ```
 
 ### Providing data to be ingested
+
+#### The `toLoad` folder
+
+#### Migrations service

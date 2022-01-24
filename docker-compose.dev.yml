@@ -10,8 +10,6 @@ services:
   dispatcher:
     restart: "no"
   database:
-    ports:
-      - "8890:8890"
     restart: "no"
   migrations:
     restart: "no"
