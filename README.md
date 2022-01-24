@@ -1,24 +1,44 @@
-# mu-project
+# Data warehouse
 
-Bootstrap a mu.semte.ch microservices environment in three easy steps.
+> Started from the [mu-project](https://github.com/mu-semtech/mu-project) template.
 
-## How to
+Simple mu-project that can be used to ingest and explore data.
+## Running and maintaining
 
-Setting up your environment is done in three easy steps:  first you configure the running microservices and their names in `docker-compose.yml`, then you configure how requests are dispatched in `config/dispatcher.ex`, and lastly you start everything.
+General information on running, maintaining and installing the stack.
 
-### Hooking things up with docker-compose
+### How to start the stack
 
-Alter the `docker-compose.yml` file so it contains all microservices you need.  The example content should be clear, but you can find more information in the [Docker Compose documentation](https://docs.docker.com/compose/).  Don't remove the `identifier` and `db` container, they are respectively the entry-point and the database of your application.  Don't forget to link the necessary microservices to the dispatcher and the database to the microservices.
+> **Prerequisites**
+> - [docker](https://docs.docker.com/get-docker/), [docker-compose](https://docs.docker.com/get-docker/) and [git](https://git-scm.com/downloads) are installed on your system
+> - you've [cloned the repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
 
-### Configure the dispatcher
+Start the system:
+```shell
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+```
+> docker-compose **up** CLI [reference](https://docs.docker.com/compose/reference/up/).
 
-Next, alter the file `config/dispatcher.ex` based on the example that is there by default.  Dispatch requests to the necessary microservices based on the names you used for the microservice.
+Wait for everything to boot to ensure clean caches. You may choose to monitor the migration service in a separate terminal and
+wait for the overview of all migrations to appear:
 
-### Boot up the system
+```shell
+docker-compose logs -f --tail=100 migrations
+```
+> docker-compose **logs** CLI [reference](https://docs.docker.com/compose/reference/logs/).
 
-Boot your microservices-enabled system using docker-compose.
+#### With environement variables
+You might find the above `docker-compose up` command tedious. To simplify it's usage we can define the `COMPOSE_FILE` variable in our environment.
 
-    cd /path/to/mu-project
-    docker-compose up
+Create an `.env` file in the root of the project with the following contence:
+```shell
+COMPOSE_FILE=docker-compose.yml:docker-compose.dev.yml
+```
+> docker-compose CLI env. vars. [reference](https://docs.docker.com/compose/reference/envvars/)
 
-You can shut down using `docker-compose stop` and remove everything using `docker-compose rm`.
+Start the system:
+```shell
+docker-compose up
+```
+
+### Providing data to be ingested
