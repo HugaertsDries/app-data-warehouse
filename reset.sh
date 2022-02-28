@@ -128,7 +128,7 @@ resetToEnv() {
 
   echo "Checking out environment to reset ..."
   # TODO how do I def the user
-  rsync -azv --partial -e "ssh -i ~dries/.ssh/id_rsa" "${ENV}"/data/db ./data
+  rsync -azv --partial -e "ssh -i ~dries/.ssh/id_rsa" --exclude 'backups/*' "${ENV}"/data/db ./data
 
   # Declare other directories you might want to ingest here.
   #rsync -azv --partial -e ssh -r "${ENV}"/data/files/subsidies ./data/files
